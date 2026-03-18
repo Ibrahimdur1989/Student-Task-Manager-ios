@@ -2,20 +2,23 @@
 //  ContentView.swift
 //  StudentTaskManager
 //
-//  Created by Ebrahim Al-Serri on 2026-03-17.
+//  Created by Group 7 on 2026-03-17.
 //
 
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var showSplash = true
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if showSplash {
+                SplashView(showSplash: $showSplash)
+            } else {
+                HomeView()
+            }
         }
-        .padding()
     }
 }
 
