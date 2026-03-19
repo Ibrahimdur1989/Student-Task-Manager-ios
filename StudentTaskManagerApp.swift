@@ -2,7 +2,7 @@
 //  StudentTaskManagerApp.swift
 //  StudentTaskManager
 //
-//  Created by Ebrahim Al-Serri on 2026-03-17.
+//  Created by Group 7 on 2026-03-17.
 //
 
 import SwiftUI

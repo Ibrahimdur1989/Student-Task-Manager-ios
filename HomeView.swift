@@ -13,42 +13,120 @@ struct HomeView: View {
     @State private var showAddTask = false
     
     var body: some View {
-        NavigationStack {
+        ZStack {
+            Color(red: 0.82, green: 0.90, blue: 0.97)
+                .ignoresSafeArea()
             
-            VStack {
-                Text("All Tasks")
-                    .font(.title)
-                    .padding()
+            VStack(spacing: 0) {
                 
-                List {
-                    ForEach(tasks) { task in
-                        VStack(alignment: .leading) {
-                            Text(task.title)
-                                .font(.headline)
-                            
-                            Text("Due: \(task.dueDate)")
-                            Text(task.status)
-                        }
+                HStack {
+                    Spacer()
+                    
+                    Text("Student Task Manager")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                    
+                    Menu {
+                        Button("Home") { }
+                        Button("About") { }
+                    } label: {
+                        Image(systemName: "line.3.horizontal")
+                            .font(.title3)
+                            .foregroundColor(.black)
                     }
                 }
-                
-                Button(action: {
-                    showAddTask = true
-                }) {
-                    Text("Add Task")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
                 .padding()
-            }
-            .navigationBarTitle("Home")
-            .sheet(isPresented: $showAddTask) {
-                AddTaskView { newTask in
-                    tasks.append(newTask)
+                .background(Color(red: 0.39, green: 0.32, blue: 0.86))
+                
+                VStack(alignment: .leading, spacing: 14) {
+                    Text("All Tasks:")
+                        .font(.title2)
+                        .padding(.top, 18)
+                        .padding(.horizontal, 20)
+                    
+                    ScrollView {
+                        VStack(spacing: 14) {
+                            ForEach(tasks.sorted(by: { $0.dueDate < $1.dueDate})) { task in
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Text(task.title)
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                    
+                                    HStack {
+                                        Text("Due: \(task.dueDate.formatted(date: .abbreviated, time: .omitted))")
+                                            .foregroundColor(.white)
+                                        
+                                        Spacer()
+                                        
+                                        Text(task.statusLabel)
+                                            .foregroundColor(.white)
+                                    }
+                                }
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(task.cardColor)
+                                .cornerRadius(18)
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 4)
+                        .padding(.bottom, 20)
+                    }
+                    
+                    Button(action: {
+                        showAddTask = true
+                    }) {
+                        ZStack {
+                            Circle()
+                                .stroke(Color.green, lineWidth: 3)
+                                .frame(width: 48, height: 48)
+                            
+                            Image(systemName: "plus")
+                                .font(.title2)
+                                .foregroundColor(.green)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, 18)
                 }
             }
         }
+        .sheet(isPresented: $showAddTask) {
+            AddTaskView { newTask in
+                tasks.append(newTask)
+                tasks.sort { $0.dueDate < $1.dueDate }
+            }
+        }
     }
+}
+
+extension Task {
+    var cardColor: Color {
+        switch status {
+        case "Completed":
+            return .green
+        case "Overdue":
+            return .red
+        default:
+            return Color.purple
+        }
+    }
+    
+    var statusLabel: String {
+        switch status {
+        case "Completed":
+            return "Completed"
+        case "Overdue":
+            return "Overdue"
+        default:
+            return "In Progress"
+        }
+    }
+}
+
+#Preview {
+    HomeView()
 }

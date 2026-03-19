@@ -31,12 +31,6 @@ struct SplashView: View {
                 Text("Stay organized with your tasks")
                     .foregroundColor(.white)
                 
-                Text("Ebrahim Al-Serri")
-                    .foregroundColor(.white)
-                
-                Text("Ahmed Ashoor")
-                    .foregroundColor(.white)
-                
                 Text("Loading...")
                     .foregroundColor(.white)
                     .padding(.top, 40)
