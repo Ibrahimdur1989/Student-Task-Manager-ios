@@ -23,9 +23,10 @@ struct HomeView: View {
                     Spacer()
                     
                     Text("Student Task Manager")
-                        .font(.largeTitle)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
+                        .lineLimit(1).minimumScaleFactor(0.8)
                     
                     Spacer()
                     
@@ -104,24 +105,28 @@ struct HomeView: View {
 }
 
 extension Task {
+    var isOverdue: Bool {
+        let today = Calendar.current.startOfDay(for: Date())
+        let taskDay = Calendar.current.startOfDay(for: dueDate)
+        return status != "Completed" && taskDay < today
+    }
+    
     var cardColor: Color {
-        switch status {
-        case "Completed":
+        if status == "Completed" {
             return .green
-        case "Overdue":
+        } else if isOverdue {
             return .red
-        default:
+        } else {
             return Color.purple
         }
     }
     
     var statusLabel: String {
-        switch status {
-        case "Completed":
+        if status == "Completed" {
             return "Completed"
-        case "Overdue":
+        } else if isOverdue {
             return "Overdue"
-        default:
+        } else {
             return "In Progress"
         }
     }

@@ -67,12 +67,13 @@ struct AddTaskView: View {
                     Text("Due Date")
                         .font(.title3)
                     
+                    
+                    
                     DatePicker("", selection: $dueDate, displayedComponents: .date)
                         .datePickerStyle(.compact)
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color(.systemGray5))
-                        .cornerRadius(8)
+                        .labelsHidden()
+                        .frame(maxWidth: .infinity)
+                    
                     
                     Text("Notes")
                         .font(.title3)
@@ -123,6 +124,7 @@ struct AddTaskView: View {
                 .padding(20)
             }
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 
