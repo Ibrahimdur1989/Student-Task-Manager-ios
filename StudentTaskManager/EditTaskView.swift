@@ -33,8 +33,8 @@ struct EditTaskView: View {
                 Text("Due Date")
                     .font(.headline)
                 
-                TextField("Enter due date", text: $task.dueDate)
-                    .textFieldStyle(.roundedBorder)
+                DatePicker("Select due date", selection: $task.dueDate, displayedComponents: .date)
+                    .datePickerStyle(.Compact)
                 
                 Text("Status")
                     .font(.headline)
@@ -74,5 +74,5 @@ struct EditTaskView: View {
 }
 
 #Preview {
-    EditTaskView(task: .constant(Task(title: "Assignment 1", dueDate: "Mar 25", status: "In Progress", notes: "Edit this task")))
+    EditTaskView(task: .constant(Task(title: "Assignment 1", dueDate: dueDate: Date(), status: "In Progress", notes: "Edit this task")))
 }
