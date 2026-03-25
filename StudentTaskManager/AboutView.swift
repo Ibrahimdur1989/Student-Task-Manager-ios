@@ -13,6 +13,7 @@ struct AboutView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
+        NavigationStack {
         ZStack {
             Color(red: 0.82, green: 0.90, blue: 0.97)
                 .ignoresSafeArea()
@@ -39,8 +40,8 @@ struct AboutView: View {
                     Spacer()
                     
                     Menu {
-                        Button("Home") { }
-                        Button("About") { }
+                      NavigationLink("Home", destination: HomeView())
+                       NavigationLink("About", destination: AboutView())
                     } label: {
                         Image(systemName: "line.3.horizontal")
                             .font(.title3)
