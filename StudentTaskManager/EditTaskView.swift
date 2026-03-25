@@ -15,6 +15,7 @@ struct EditTaskView: View {
     @State private var showDatePicker = false
 
 var body: some View {
+    NavigationStack {
    ZStack {
      Color(red: 0.82, green: 0.90, blue: 0.97)
       .ignoresSafeArea()
@@ -39,9 +40,9 @@ HStack {
 
       Spacer()
 
-  Menu {
-    Button("Home") { }
-    Button("About") { }
+Menu {
+NavigationLink("Home", destination: HomeView())
+NavigationLink("About", destination: AboutView())
 } label: {
    Image(systemName: "line.3.horizontal")
       .font(.title3)
