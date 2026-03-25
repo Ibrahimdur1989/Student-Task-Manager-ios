@@ -7,136 +7,147 @@
 
 import SwiftUI
 
-
  struct TaskDetailsView: View {
 
-      @Binding var task: Task
-      @Environment(\.dismiss) var dismiss
+         @Binding var task: Task
+         @Environment(\.dismiss) var dismiss
+         @State private var showEditTask = false
 
-       @State private var showEditTask = false
+         var body: some View {
+            ZStack {
+            Color(red: 0.82, green: 0.90, blue: 0.97)
+            .ignoresSafeArea()
 
-       var body: some View {
-           NavigationStack {
-              ZStack {
-                Color(red: 0.82, green: 0.90, blue: 0.97)
-                  .ignoresSafeArea()
+             VStack(spacing: 0) {
 
-              VStack(spacing: 0) {
 
-                HStack {
-                  Button(action: {
-                    dismiss()
-               }) {
-                  Image(systemName: "arrow.left")
-                    .font(.title2)
-                    .foregroundColor(.white)
-                  }
+             HStack {
+             Button(action: {
+                  dismiss()
+                }) {
+                   Image(systemName: "arrow.left")
+                     .font(.title2)
+                     .foregroundColor(.white)
+                    }
 
-                  Spacer()
+             Spacer()
 
-                 Text("Task Details")
-                  .font(.headline)
-                  .fontWeight(.bold)
-               .foregroundColor(.white)
+                Text("Task Details")
+                 .font(.headline)
+                 .fontWeight(.bold)
+                 .foregroundColor(.white)
 
-                 Spacer()
+              Spacer()
 
-                Menu {
-                NavigationLink("Home", destination: HomeView())
-                 NavigationLink("About", destination: AboutView())
-              } label: {
-               Image(systemName: "line.3.horizontal")
-                 .font(.title3)
-                  .foregroundColor(.black)
-                 }
-               }
-               .padding()
-               .background(Color(red: 0.39, green: 0.32, blue: 0.86))
-
-               VStack(alignment: .leading, spacing: 22) {
-               Text("Task Title")
-                  .font(.headline)
-
-               Text(task.title)
-               .frame(maxWidth: .infinity, alignment: .leading)
-                  .padding()
-                  .background(Color(.systemGray5))
-                  .cornerRadius(10)
-
-                Text("Due Date")
-                  .font(.headline)
-
-              Text(task.dueDate.formatted(date: .abbreviated, time: .omitted))
-              .frame(maxWidth: .infinity, alignment: .leading)
+                 Menu {
+           NavigationLink("Home", destination: HomeView())
+           NavigationLink("About", destination: AboutView())
+        } label: {
+           Image(systemName: "line.3.horizontal")
+                   .font(.title3)
+                .foregroundColor(.black)
+                     }
+                    }
                  .padding()
-                 .background(Color(.systemGray5))
-                .cornerRadius(10)
+                 .background(Color(red: 0.39, green: 0.32, blue: 0.86))
+ 
+                  VStack(spacing: 30) {
 
-            Text("Status")
-            .font(.headline)
+                  VStack(alignment: .leading, spacing: 20) {
+          Text("Task: \(task.title)")
+                    .font(.headline)
+                    .foregroundColor(.white)
 
-                 Text(taskStatusText)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                   .padding()
-                   .background(Color(.systemGray5))
-                  .cornerRadius(10)
+                     HStack {
+            Text("Due: \(task.dueDate.formatted(date: .abbreviated, time: .omitted))")
+                    .foregroundColor(.white)
 
-                  Text("Notes")
-                  .font(.headline)
+             Spacer()
 
-               Text(task.notes.isEmpty ? "No notes added." : task.notes)
-                .frame(maxWidth: .infinity, minHeight: 160, alignment: .topLeading)
-                  .padding()
-                  .background(Color(.systemGray5))
-                  .cornerRadius(10)
+               Text(taskStatusText)
+                      .foregroundColor(.white)
+                }
+
+              Text("Notes: \(task.notes.isEmpty ? "No notes added." : task.notes)")
+                       .foregroundColor(.white)
+               }
+                       .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                         .background(Color.purple)
+                         .cornerRadius(20)
+                         .padding(.horizontal, 25)
+                         .padding(.top, 50)
 
                   Button(action: {
-                   showEditTask = true
-             }) {
-             Text("Edit Task")
-                  .font(.headline)
-                  .foregroundColor(.white)
-                  .frame(maxWidth: .infinity)
-                  .frame(height: 50)
-                  .background(Color(red: 0.39, green: 0.32, blue: 0.86))
-                 .cornerRadius(12)
-              }
-                 .padding(.top, 10)
-
-                 Spacer()
-             }
-                 .padding(20)
-              }
-             }
-               .sheet(isPresented: $showEditTask) {
-                EditTaskView(task: $task)
-            }
-             }
-            }
-
-                  var taskStatusText: String {
-                 let today = Calendar.current.startOfDay(for: Date())
-                 let taskDay = Calendar.current.startOfDay(for: task.dueDate)
-
-                 if task.status == "Completed" {
-                  return "Completed"
-               } else if taskDay < today {
-                   return "Overdue"
-                       } else {
-                        return "In Progress"
-                  }
+                    task.status = "Completed"
+               }) {
+                        HStack {
+                         Image(systemName: "checkmark")
+            Text("Mark as Completed")
                }
-            }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(width: 220, height: 45)
+                        .background(Color.green)
+                        .cornerRadius(10)
+                }
 
-                #Preview {
-                     TaskDetailsView(
-                       task: .constant(
-                        Task(
-                       title: "Sample Task",
-                    dueDate: Date(),
-                    status: "In Progress",
-                     notes: "Task details preview"
-            )
-         )
-      )
-   }
+         HStack(spacing: 50) {
+            Button(action: {
+                 showEditTask = true
+               }) {
+            Text("Edit")
+                       .font(.headline)
+                       .foregroundColor(.white)
+                       .frame(width: 80, height: 40)
+                       .background(Color(red: 0.39, green: 0.32, blue: 0.86))
+                       .cornerRadius(10)
+                }
+ 
+              Button(action: {
+                      dismiss()
+                  }) {
+                  Text("Delete")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(width: 80, height: 40)
+                        .background(Color.red)
+                        .cornerRadius(10)
+                       }
+                      }
+
+                    Spacer()
+                           }
+                       }
+                       }
+                 .sheet(isPresented: $showEditTask) {
+                   EditTaskView(task: $task)
+                     }
+                     }
+
+                   var taskStatusText: String {
+                   let today = Calendar.current.startOfDay(for: Date())
+                   let taskDay = Calendar.current.startOfDay(for: task.dueDate)
+
+                   if task.status == "Completed" {
+                   return "âœ“ Completed"
+                      } else if taskDay < today {
+                         return "âš  Overdue"
+                             } else {
+                                return "âŒ› In Progress"
+                          }
+                      }
+                 }
+
+                 #Preview {
+                      TaskDetailsView(
+                          task: .constant(
+                                  Task(
+                                     title: "Project UI Design - Mobile Appl.",
+                                     dueDate: Date(),
+                                     status: "In Progress",
+                      notes: "Design the main UI screens for the mobile application using Figma and submit them in PDF"
+                          )
+                        )
+                     )
+                   }
