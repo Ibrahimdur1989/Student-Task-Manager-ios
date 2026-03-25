@@ -7,31 +7,34 @@
 
 import SwiftUI
 
-   struct AboutView: View {
-
-          @Environment(\.dismiss) var dismiss
-
-              var body: some View {
-                  NavigationStack {
-                       ZStack {
-                  Color(red: 0.82, green: 0.90, blue: 0.97)
-                .ignoresSafeArea()
-
-                VStack(spacing: 0) {
-
-                 HStack {
-                 Button(action: {
-                  dismiss()
-                   }) {
-                      Image(systemName: "arrow.left")
-                         .font(.title2)
-                         .foregroundColor(.white)
-                    }
-
-                         Spacer()
-
-                         Text("About")
-                          .font(.headline)
+   struct TaskDetailsView: View {
+       
+       @Binding var task: Task
+       @Environment(\.dismiss) var dismiss
+       
+       @State private var showEditTask = false
+       
+       var body: some View {
+           NavigationStack {
+               ZStack {
+                   Color(red: 0.82, green: 0.90, blue: 0.97)
+                       .ignoresSafeArea()
+                   
+                   VStack(spacing: 0) {
+                       
+                       HStack {
+                           Button(action: {
+                               dismiss()
+                           }) {
+                               Image(systemName: "arrow.left")
+                                   .font(.title2)
+                                   .foregroundColor(.white)
+                           }
+                           
+                           Spacer()
+                           
+                           Text("About")
+                               .font(.headline)
                           .fontWeight(.bold)
                           .foregroundColor(.white)
 
