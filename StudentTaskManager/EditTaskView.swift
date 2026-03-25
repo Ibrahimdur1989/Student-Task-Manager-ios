@@ -66,7 +66,7 @@ struct EditTaskView: View {
                             .font(.headline)
                         
                         DatePicker( "",selection: $task.dueDate,displayedComponents: .date)
-                            .datePickerStyle(.graphical)
+                            .datePickerStyle(.compact)
                             .labelsHidden()
                             .frame(maxWidth: .infinity)
                             .padding()
