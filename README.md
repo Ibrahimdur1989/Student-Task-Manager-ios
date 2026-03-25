@@ -13,5 +13,5 @@ Features:
 This project is developed by Group 7 for Mobile Application Development course.
 
 Team Members:
-- Ahmad Mansor
+- Ahmad Ashoor
 - Ebrahim Awdah
